@@ -41,7 +41,7 @@ La finalidad principal del proyecto es apoyar a las personas en la administraci�
 
 # 🗂️ Diagrama Entidad-Relación
 
-<img src="img/diagrama.png" alt="Mi Foto" width="200">
+<img src="img/diagrama.png" alt="Mi Foto" width="700">
 
 
 

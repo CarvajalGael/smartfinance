@@ -21,7 +21,7 @@ Nuestro objetivo con esta aplicación es ayudar a los usuarios a llevar un mejor
 - **Especialidad:** Programación  
 - **Institución:** CETis 61  
 
-<img src="static/img/Gael1.jpeg" alt="Mi Foto" width="200">
+<img src="img/Gael1.jpeg" alt="Mi Foto" width="200">
 
 # 📘 Descripción del Proyecto
 

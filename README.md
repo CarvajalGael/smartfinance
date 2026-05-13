@@ -41,34 +41,9 @@ La finalidad principal del proyecto es apoyar a las personas en la administraci�
 
 # 🗂️ Diagrama Entidad-Relación
 
-## Entidades principales
+<img src="img/diagrama.png" alt="Mi Foto" width="200">
 
-### Usuarios
-- id_usuario
-- nombre
-- correo
-- contraseña
 
-### Gastos
-- id_gasto
-- id_usuario
-- monto
-- categoria
-- descripcion
-- fecha
-
-### Ingresos
-- id_ingreso
-- id_usuario
-- monto
-- descripcion
-- fecha
-
-## Relaciones
-- Un usuario puede registrar muchos gastos.
-- Un usuario puede registrar muchos ingresos.
-- Relación 1:N entre usuarios y gastos.
-- Relación 1:N entre usuarios e ingresos.
 
 # 💾 Base de Datos
 

@@ -51,19 +51,3 @@ La finalidad principal del proyecto es apoyar a las personas en la administraci�
 
 <img src="img/diagrama.png" alt="Mi Foto" width="700">
 
-
-
-# 💾 Base de Datos
-
-La base de datos utilizada se llama `smartfinance` y fue desarrollada en MariaDB utilizando HeidiSQL.
-
-El sistema cuenta con tres tablas principales:
-- usuarios
-- gastos
-- ingresos
-
-Se utilizaron:
-- Llaves primarias (PRIMARY KEY)
-- Llaves foráneas (FOREIGN KEY)
-
-Esto permite mantener la integridad de la información y la relación correcta entre los datos almacenados.

@@ -4,4 +4,19 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "flet>=0.85.1",
+    "run>=0.3",
+]
+
+[project.scripts]
+#aqui definimos el comando corto.
+#importante: quitamos el prefijo "src. porque definimos src como la raiz.
+app = "main:main"
+
+[tool.uv]
+package = true
+
+#esta seccion es crucial para que python vea el contenido de src como el nivel raiz. 
+[tool.setuptools.package-dir]
+"" = "src"

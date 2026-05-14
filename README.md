@@ -28,7 +28,8 @@ Nuestro objetivo con esta aplicación es ayudar a los usuarios a llevar un mejor
 - **Edad:** 17  
 - **Correo electrónico:** 23308060610066@cetis61.edu.mx  
 - **Especialidad:** Programación  
-- **Institución:** CETis 61  
+- **Institución:** CETis 61
+- <img src="img/Areli.jpeg" alt="Mi Foto" width="200">
 
 
 # 📘 Descripción del Proyecto

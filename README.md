@@ -23,6 +23,14 @@ Nuestro objetivo con esta aplicación es ayudar a los usuarios a llevar un mejor
 
 <img src="img/Gael1.jpeg" alt="Mi Foto" width="200">
 
+### Integrante 2
+- **Nombre completo:** Ramirez Vela Areli
+- **Edad:** 17  
+- **Correo electrónico:** 23308060610066@cetis61.edu.mx  
+- **Especialidad:** Programación  
+- **Institución:** CETis 61  
+
+
 # 📘 Descripción del Proyecto
 
 SmartFinance es una aplicación web desarrollada para ayudar a los usuarios a registrar, organizar y controlar sus ingresos y gastos personales de manera sencilla y eficiente.

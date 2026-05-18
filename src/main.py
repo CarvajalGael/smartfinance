@@ -1,6 +1,6 @@
 import flet as ft
+from models.userModel import UsuarioModel
 from controllers.UsersController import AuthController
-from views.LoginView import LoginView
 
 def start(page: ft.Page):
     auth_ctrl = AuthController()

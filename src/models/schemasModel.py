@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
 from datetime import date, time, datetime
+
 class UsuarioLogin(BaseModel):
     email: EmailStr
     password: str=Field(min_length=8)   

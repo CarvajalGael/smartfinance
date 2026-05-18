@@ -7,7 +7,7 @@ def LoginView(page, auth_controller):
         hint_text="Ingresa tu correo",
         width=350,
         border=ft.InputBorder.NONE,
-        icon=ft.Icons.EMAIL,
+        prefix_icon=ft.Icons.EMAIL,
     )
 
     password_input = ft.TextField(
@@ -17,56 +17,67 @@ def LoginView(page, auth_controller):
         password=True,
         can_reveal_password=True,
         border=ft.InputBorder.NONE,
-        icon=ft.Icons.LOCK,
+        prefix_icon=ft.Icons.LOCK,
     )
 
-    mensaje = ft.Text(
-        "Se envió un correo de recuperación",
-        visible=False,
-        color=ft.Colors.WHITE,
-        bgcolor=ft.Colors.BLACK
-    )
-
-    def mostrar_mensaje(e):
-        mensaje.visible = True
-        page.update()
+    texto_error = ft.Text("", color=ft.Colors.RED)
 
     def cerrar_dialogo(e):
         dialogo.open = False
         page.update()
 
     def validar_campos():
-        return email_input.value and password_input.value
+        return bool(
+            email_input.value.strip() and
+            password_input.value.strip()
+        )
+
+    def mostrar_recuperacion(e):
+        page.snack_bar = ft.SnackBar(
+            ft.Text("Se envió un correo de recuperación")
+        )
+        page.snack_bar.open = True
+        page.update()
 
     def hacer_login(e):
+
         if not validar_campos():
-            page.snack_bar = ft.SnackBar(ft.Text("Completa todos los campos"))
+            page.snack_bar = ft.SnackBar(
+                ft.Text("Completa todos los campos")
+            )
             page.snack_bar.open = True
             page.update()
             return
 
         usuario, mensaje_error = auth_controller.login(
-            email_input.value,
-            password_input.value
+            email_input.value.strip(),
+            password_input.value.strip()
         )
 
         if usuario:
             page.user_data = usuario
             page.go("/dashboard")
+
         else:
-            dialogo.content = ft.Text(mensaje_error)
+            texto_error.value = mensaje_error
             dialogo.open = True
-            page.dialog = dialogo
             page.update()
 
     dialogo = ft.AlertDialog(
         title=ft.Text("Error de inicio"),
-        content=ft.Text(""),
-        actions=[ft.TextButton("Cerrar", on_click=cerrar_dialogo)]
+        content=texto_error,
+        actions=[
+            ft.TextButton(
+                "Cerrar",
+                on_click=cerrar_dialogo
+            )
+        ]
     )
 
+    page.dialog = dialogo
+
     boton_login = ft.ElevatedButton(
-        "Iniciar sesión",
+        text="Iniciar sesión",
         width=350,
         bgcolor=ft.Colors.BLACK,
         color=ft.Colors.WHITE,
@@ -80,12 +91,23 @@ def LoginView(page, auth_controller):
         controls=[
             ft.Column(
                 controls=[
-                    ft.Text("Login", size=30, weight=ft.FontWeight.BOLD),
+                    ft.Text(
+                        "Login",
+                        size=30,
+                        weight=ft.FontWeight.BOLD
+                    ),
+
                     email_input,
+
                     password_input,
-                    ft.TextButton("¿Olvidaste tu contraseña?", on_click=mostrar_mensaje),
+
+                    ft.TextButton(
+                        "¿Olvidaste tu contraseña?",
+                        on_click=mostrar_recuperacion
+                    ),
+
                     boton_login,
-                    mensaje,
+
                     ft.TextButton(
                         "Crear una nueva cuenta",
                         on_click=lambda e: page.go("/registro")

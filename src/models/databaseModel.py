@@ -14,3 +14,4 @@ class Database:
         database = os.getenv("DB_NAME")
         )
         
+        

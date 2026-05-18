@@ -50,18 +50,19 @@ CREATE TABLE IF NOT EXISTS `ingresos` (
 
 -- Volcando estructura para tabla smartfinance.usuarios
 CREATE TABLE IF NOT EXISTS usuarios (
-  id_usuario int(11) NOT NULL AUTO_INCREMENT,
-  nombre varchar(100) NOT NULL DEFAULT '0',
-  correo varchar(100) NOT NULL DEFAULT '0',
-  contraseña varchar(100) NOT NULL DEFAULT '0',
-  PRIMARY KEY (id_usuario)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    `id_usuario` INT NOT NULL AUTO_INCREMENT,
+    `nombre` VARCHAR(100) NOT NULL,
+    `correo` VARCHAR(100) NOT NULL UNIQUE,
+    `password` VARCHAR(255) NOT NULL,
+    PRIMARY KEY (`id_usuario`)
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
 
--- Datos de ejemplo
-INSERT INTO usuarios (nombre, correo, contraseña) VALUES
+INSERT INTO usuarios (nombre, correo, password) VALUES
 ('Test User', 'test@example.com', '1234'),
 ('Juan Pérez', 'juan@correo.com', 'abcd'),
-('Ana Gómez', 'ana@correo.com', 'pass123');
+('Ana Gómez', 'ana@correo.com', 'pass123')
 
 -- Volcando datos para la tabla smartfinance.usuarios: ~0 rows (aproximadamente)
 

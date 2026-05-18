@@ -1,5 +1,6 @@
 import flet as ft
 
+
 def LoginView(page, auth_controller):
 
     email_input = ft.TextField(
@@ -7,7 +8,7 @@ def LoginView(page, auth_controller):
         hint_text="Ingresa tu correo",
         width=350,
         border=ft.InputBorder.NONE,
-        prefix_icon=ft.Icons.EMAIL,
+        prefix_icon=ft.Icon(ft.Icons.EMAIL),
     )
 
     password_input = ft.TextField(
@@ -17,7 +18,7 @@ def LoginView(page, auth_controller):
         password=True,
         can_reveal_password=True,
         border=ft.InputBorder.NONE,
-        prefix_icon=ft.Icons.LOCK,
+        prefix_icon=ft.Icon(ft.Icons.LOCK),
     )
 
     texto_error = ft.Text("", color=ft.Colors.RED)
@@ -34,7 +35,7 @@ def LoginView(page, auth_controller):
 
     def mostrar_recuperacion(e):
         page.snack_bar = ft.SnackBar(
-            ft.Text("Se envió un correo de recuperación")
+            content=ft.Text("Se envió un correo de recuperación")
         )
         page.snack_bar.open = True
         page.update()
@@ -43,7 +44,7 @@ def LoginView(page, auth_controller):
 
         if not validar_campos():
             page.snack_bar = ft.SnackBar(
-                ft.Text("Completa todos los campos")
+                content=ft.Text("Completa todos los campos")
             )
             page.snack_bar.open = True
             page.update()
@@ -57,7 +58,6 @@ def LoginView(page, auth_controller):
         if usuario:
             page.user_data = usuario
             page.go("/dashboard")
-
         else:
             texto_error.value = mensaje_error
             dialogo.open = True
@@ -68,7 +68,7 @@ def LoginView(page, auth_controller):
         content=texto_error,
         actions=[
             ft.TextButton(
-                "Cerrar",
+                content=ft.Text("Cerrar"),
                 on_click=cerrar_dialogo
             )
         ]
@@ -77,7 +77,7 @@ def LoginView(page, auth_controller):
     page.dialog = dialogo
 
     boton_login = ft.ElevatedButton(
-        text="Iniciar sesión",
+        content=ft.Text("Iniciar sesión"),
         width=350,
         bgcolor=ft.Colors.BLACK,
         color=ft.Colors.WHITE,
@@ -98,18 +98,17 @@ def LoginView(page, auth_controller):
                     ),
 
                     email_input,
-
                     password_input,
 
                     ft.TextButton(
-                        "¿Olvidaste tu contraseña?",
+                        content=ft.Text("¿Olvidaste tu contraseña?"),
                         on_click=mostrar_recuperacion
                     ),
 
                     boton_login,
 
                     ft.TextButton(
-                        "Crear una nueva cuenta",
+                        content=ft.Text("Crear una nueva cuenta"),
                         on_click=lambda e: page.go("/registro")
                     ),
                 ],

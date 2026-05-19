@@ -30,7 +30,7 @@ class AuthController:
 
         try:
             usuario_login = UsuarioLogin(
-                correo=correo,
+                email=correo,
                 password=password
             )
 

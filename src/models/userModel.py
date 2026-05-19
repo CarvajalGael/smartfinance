@@ -28,7 +28,7 @@ class UsuarioModel:
     def validar_login(self, email, password):
         conn = self.db.get_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM usuario WHERE email=%s", (email,))
+        cursor.execute("SELECT * FROM usuarios WHERE correo=%s", (email,))
         user = cursor.fetchone()
         conn.close()
         
@@ -43,7 +43,7 @@ class UsuarioModel:
             conn = self.db.get_connection()
             cursor = conn.cursor(dictionary=True)
             
-            query= "SELECT * FROM usuario WHERE email=%s"
+            query= "SELECT * FROM usuarios WHERE correo=%s"
             cursor.execute(query, (usuario_data.email,))
             usuario_encontrado = cursor.fetchone()
             

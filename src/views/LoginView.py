@@ -1,6 +1,5 @@
 import flet as ft
 
-
 def LoginView(page, auth_controller):
 
     email_input = ft.TextField(
@@ -33,9 +32,20 @@ def LoginView(page, auth_controller):
             password_input.value.strip()
         )
 
+    # NUEVO: Función de recuperación de contraseña
     def mostrar_recuperacion(e):
+        correo = email_input.value.strip()
+        if not correo:
+            page.snack_bar = ft.SnackBar(
+                content=ft.Text("Ingresa tu correo primero")
+            )
+            page.snack_bar.open = True
+            page.update()
+            return
+
+        exito, mensaje = auth_controller.enviar_correo_olvido_contrasena(correo)
         page.snack_bar = ft.SnackBar(
-            content=ft.Text("Se envió un correo de recuperación")
+            content=ft.Text(mensaje)
         )
         page.snack_bar.open = True
         page.update()
@@ -102,7 +112,7 @@ def LoginView(page, auth_controller):
 
                     ft.TextButton(
                         content=ft.Text("¿Olvidaste tu contraseña?"),
-                        on_click=mostrar_recuperacion
+                        on_click=mostrar_recuperacion  # Llama a AuthController
                     ),
 
                     boton_login,

@@ -60,7 +60,7 @@ DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO usuarios (nombre, correo, password) VALUES
-('Ana Gómez', '23308060610312@cetis61.edu.mx', 'pass1234')
+('Ana Gómez', '23308060610312@cetis61.edu.mx', 'pass1234');
 
 -- Volcando datos para la tabla smartfinance.usuarios: ~0 rows (aproximadamente)
 

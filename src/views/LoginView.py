@@ -51,7 +51,7 @@ def LoginView(page, auth_controller):
         page.update()
 
     def hacer_login(e):
-
+        print("Haciendo login..")
         if not validar_campos():
             page.snack_bar = ft.SnackBar(
                 content=ft.Text("Completa todos los campos")

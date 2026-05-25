@@ -22,6 +22,9 @@ def start(page: ft.Page):
             
         elif page.route == "/gastos":
             page.views.append(GastosView(page, auth_ctrl))
+            
+        elif page.route == "/ingreso":
+            page.views.append(IngresoView(page, auth_ctrl))
 
         if not page.views:
             page.views.append(

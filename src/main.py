@@ -2,6 +2,7 @@ import flet as ft
 from controllers.UsersController import AuthController
 from views.LoginView import LoginView
 from views.RegistroView import RegistroView
+from views.GastosView import GastosView
 
 def start(page: ft.Page):
     page.title = "Sistema de inicio de sesión"
@@ -18,6 +19,9 @@ def start(page: ft.Page):
 
         elif page.route == "/registro":
             page.views.append(RegistroView(page, auth_ctrl))
+            
+        elif page.route == "/gastos":
+            page.views.append(GastosView(page, auth_ctrl))
 
         if not page.views:
             page.views.append(

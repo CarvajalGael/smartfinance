@@ -3,7 +3,7 @@ import flet as ft
 
 def RegistroView(page, auth_controller):
 
-    # Campos de entrada
+
     nombre_input = ft.TextField(
         label="Nombre",
         hint_text="Ingresa tu nombre",
@@ -30,7 +30,6 @@ def RegistroView(page, auth_controller):
         icon=ft.Icons.LOCK,
     )
 
-    # Diálogo de error
     dialogo = ft.AlertDialog(
         title=ft.Text("Error de registro"),
         content=ft.Text(""),
@@ -43,7 +42,6 @@ def RegistroView(page, auth_controller):
         dialogo.open = False
         page.update()
 
-    # Validar que todos los campos estén llenos
     def validar_campos():
         return bool(
             nombre_input.value.strip() and
@@ -51,7 +49,6 @@ def RegistroView(page, auth_controller):
             password_input.value.strip()
         )
 
-    # Función que registra usuario
     def registrar_usuario(e):
         if not validar_campos():
             page.snack_bar = ft.SnackBar(
@@ -61,7 +58,6 @@ def RegistroView(page, auth_controller):
             page.update()
             return
 
-        # Usar el método correcto de AuthController
         success, mensaje = auth_controller.registrar_usuario(
             nombre_input.value.strip(),
             email_input.value.strip(),
@@ -74,14 +70,14 @@ def RegistroView(page, auth_controller):
             )
             page.snack_bar.open = True
             page.update()
-            page.go("/")  # Regresa al login
+            page.go("/")
         else:
             dialogo.content = ft.Text(mensaje)
             dialogo.open = True
             page.dialog = dialogo
             page.update()
 
-    # Botón de registro
+
     boton_registrar = ft.ElevatedButton(
         "Registrar usuario",
         width=350,
@@ -90,7 +86,6 @@ def RegistroView(page, auth_controller):
         on_click=registrar_usuario
     )
 
-    # Vista completa
     return ft.View(
         route="/registro",
         vertical_alignment=ft.MainAxisAlignment.CENTER,
@@ -109,7 +104,7 @@ def RegistroView(page, auth_controller):
                     boton_registrar,
                     ft.TextButton(
                         "Volver al login",
-                        on_click=lambda e: page.go("/")
+                        on_click=lambda e: page.go("/gastos")
                     ),
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,

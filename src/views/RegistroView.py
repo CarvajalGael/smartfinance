@@ -70,7 +70,7 @@ def RegistroView(page, auth_controller):
             )
             page.snack_bar.open = True
             page.update()
-            page.go("/")
+            page.go("/dashboard")
         else:
             dialogo.content = ft.Text(mensaje)
             dialogo.open = True
@@ -104,7 +104,7 @@ def RegistroView(page, auth_controller):
                     boton_registrar,
                     ft.TextButton(
                         "Volver al login",
-                        on_click=lambda e: page.go("/gastos")
+                        on_click=lambda e: page.go("/")
                     ),
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,

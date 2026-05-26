@@ -3,6 +3,7 @@ from controllers.UsersController import AuthController
 from views.LoginView import LoginView
 from views.RegistroView import RegistroView
 from views.GastosView import GastosView
+from views.DashboardView import DashboardView
 
 def start(page: ft.Page):
     page.title = "Sistema de inicio de sesión"
@@ -25,6 +26,9 @@ def start(page: ft.Page):
             
         elif page.route == "/ingreso":
             page.views.append(IngresoView(page, auth_ctrl))
+        
+        elif page.route == "/dashboard":
+            page.views.append(DashboardView(page, auth_ctrl))
 
         if not page.views:
             page.views.append(

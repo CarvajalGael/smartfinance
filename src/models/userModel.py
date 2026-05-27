@@ -1,64 +1,82 @@
 import bcrypt
 from .databaseModel import Database
-
 class UsuarioModel:
+
     def __init__(self):
         self.db = Database()
-        
+
     def registrar(self, usuario_data):
+
         salt = bcrypt.gensalt()
-        hashed_pw = bcrypt.hashpw(usuario_data.password.encode('utf-8'), salt)
-        
-        conn = self.db.get_connection()
-        cursor = conn.cursor()
+
+        hashed_pw = bcrypt.hashpw(
+            usuario_data.password.encode('utf-8'),
+            salt
+        )
+
+        conn = None
+        cursor = None
+
         try:
-            cursor.execute(
-                "INSERT INTO usuario (nombre, apellido, email, password, activo) VALUES (%s, %s, %s, %s, %s)",
-                (usuario_data.nombre, usuario_data.apellido, usuario_data.email, hashed_pw.decode('utf-8'), 1)
+            conn = self.db.get_connection()
+            cursor = conn.cursor()
+
+            query = """
+                INSERT INTO usuarios
+                (nombre, correo, password)
+                VALUES (%s, %s, %s)
+            """
+
+            values = (
+                usuario_data.nombre,
+                usuario_data.correo,
+                hashed_pw.decode('utf-8')
             )
+
+            cursor.execute(query, values)
             conn.commit()
+
             return True
+
         except Exception as e:
-            print(f"Error: {e}")
+            print("ERROR REGISTRO:", e)
             return False
+
         finally:
-            conn.close()
-        
-    def validar_login(self, email, password):
-        conn = self.db.get_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM usuarios WHERE correo=%s", (email,))
-        user = cursor.fetchone()
-        conn.close()
-        
-        if user and bcrypt.checkpw(password.encode('utf-8'), user['password'].encode('utf-8')):
-            return user
-        return None
-    
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+
     def iniciar_sesion(self, usuario_data):
-        conn=None
-        cursor=None
+
+        conn = None
+        cursor = None
+
         try:
             conn = self.db.get_connection()
             cursor = conn.cursor(dictionary=True)
-            
-            query= "SELECT * FROM usuarios WHERE correo=%s"
+
+            query = "SELECT * FROM usuarios WHERE correo=%s"
             cursor.execute(query, (usuario_data.email,))
-            usuario_encontrado = cursor.fetchone()
-            
-            if usuario_encontrado:
-                pw_usuario = usuario_data.password.encode('utf-8')
-                pw_base_datos = usuario_encontrado['password'].encode('utf-8')
-                
-                if bcrypt.checkpw(pw_usuario, pw_base_datos):
-                    return usuario_encontrado
-                return None
-            
-        except Exception as err:
-            print(f"Error en la base de datos: {err}")
-            return False
+            usuario = cursor.fetchone()
+
+            if usuario:
+
+                pw_input = usuario_data.password.encode('utf-8')
+                pw_db = usuario['password'].encode('utf-8')
+
+                if bcrypt.checkpw(pw_input, pw_db):
+                    return usuario
+
+            return None
+
+        except Exception as e:
+            print("ERROR LOGIN:", e)
+            return None
+
         finally:
-            if cursor: cursor.close()
-            if conn: conn.close()
-            
-            
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()

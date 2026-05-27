@@ -1,4 +1,3 @@
-
 import flet as ft
 
 def RegistroView(page, auth_controller):

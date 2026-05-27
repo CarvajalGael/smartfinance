@@ -25,7 +25,7 @@ def start(page: ft.Page):
             page.views.append(GastosView(page, auth_ctrl))
             
         elif page.route == "/ingreso":
-            page.views.append(IngresoView(page, auth_ctrl))
+            page.views.append(IngresosView(page, auth_ctrl))
         
         elif page.route == "/dashboard":
             page.views.append(DashboardView(page, auth_ctrl))

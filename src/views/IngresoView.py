@@ -32,7 +32,6 @@ def IngresosView(page, auth_controller):
             descripcion_input.value.strip()
         )
 
-    # READ
     def cargar_ingresos():
 
         tabla_ingresos.controls.clear()
@@ -66,14 +65,12 @@ def IngresosView(page, auth_controller):
                         ft.Row(
                             controls=[
 
-                                # EDITAR
                                 ft.IconButton(
                                     icon=ft.Icons.EDIT,
                                     icon_color=ft.Colors.BLUE,
                                     on_click=lambda e, i=ingreso: editar_ingreso(i)
                                 ),
 
-                                # ELIMINAR
                                 ft.IconButton(
                                     icon=ft.Icons.DELETE,
                                     icon_color=ft.Colors.RED,
@@ -95,7 +92,6 @@ def IngresosView(page, auth_controller):
         descripcion_input.value = ""
         ingreso_editando["id"] = None
 
-    # CREATE + UPDATE
     def guardar_ingreso(e):
 
         if not validar_campos():
@@ -110,7 +106,6 @@ def IngresosView(page, auth_controller):
         monto = ingreso_input.value
         descripcion = descripcion_input.value
 
-        # CREATE
         if ingreso_editando["id"] is None:
 
             auth_controller.crear_ingreso(
@@ -120,7 +115,6 @@ def IngresosView(page, auth_controller):
 
             mensaje = "Ingreso guardado correctamente"
 
-        # UPDATE
         else:
 
             auth_controller.actualizar_ingreso(

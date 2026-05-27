@@ -4,6 +4,7 @@ from views.LoginView import LoginView
 from views.RegistroView import RegistroView
 from views.GastosView import GastosView
 from views.DashboardView import DashboardView
+from views.IngresoView import IngresosView
 
 def start(page: ft.Page):
     page.title = "Sistema de inicio de sesión"

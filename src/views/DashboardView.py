@@ -2,10 +2,6 @@ import flet as ft
 
 def DashboardView(page, auth_controller):
 
-    def mostrar_mensaje(texto):
-        mensaje.value = texto
-        page.update()
-
     mensaje = ft.Text(
         "Selecciona una opción",
         size=20,
@@ -14,6 +10,7 @@ def DashboardView(page, auth_controller):
 
     return ft.View(
         route="/dashboard",
+
         controls=[
             ft.AppBar(
                 title=ft.Text("Control Financiero"),
@@ -43,10 +40,7 @@ def DashboardView(page, auth_controller):
                                     color=ft.Colors.WHITE,
                                     width=150,
                                     height=50,
-                                    on_click=lambda e:
-                                    mostrar_mensaje(
-                                        "Botón INGRESO presionado"
-                                    )
+                                    on_click=lambda e: page.go("/ingreso")
                                 ),
 
                                 ft.ElevatedButton(
@@ -56,10 +50,7 @@ def DashboardView(page, auth_controller):
                                     color=ft.Colors.WHITE,
                                     width=150,
                                     height=50,
-                                    on_click=lambda e:
-                                    mostrar_mensaje(
-                                        "Botón GASTOS presionado"
-                                    )
+                                    on_click=lambda e: page.go("/gastos")
                                 ),
                             ]
                         )

@@ -1,5 +1,7 @@
 import bcrypt
 from .databaseModel import Database
+
+
 class UsuarioModel:
 
     def __init__(self):
@@ -45,6 +47,7 @@ class UsuarioModel:
         finally:
             if cursor:
                 cursor.close()
+
             if conn:
                 conn.close()
 
@@ -58,7 +61,9 @@ class UsuarioModel:
             cursor = conn.cursor(dictionary=True)
 
             query = "SELECT * FROM usuarios WHERE correo=%s"
+
             cursor.execute(query, (usuario_data.email,))
+
             usuario = cursor.fetchone()
 
             if usuario:
@@ -78,5 +83,64 @@ class UsuarioModel:
         finally:
             if cursor:
                 cursor.close()
+
+            if conn:
+                conn.close()
+
+    def obtener_ingresos(self):
+
+        conn = None
+        cursor = None
+
+        try:
+            conn = self.db.get_connection()
+
+            cursor = conn.cursor(dictionary=True)
+
+            query = "SELECT * FROM ingresos"
+
+            cursor.execute(query)
+
+            ingresos = cursor.fetchall()
+
+            return ingresos
+
+        except Exception as e:
+            print("ERROR OBTENER INGRESOS:", e)
+            return []
+
+        finally:
+            if cursor:
+                cursor.close()
+
+            if conn:
+                conn.close()
+
+    def obtener_gastos(self):
+
+        conn = None
+        cursor = None
+
+        try:
+            conn = self.db.get_connection()
+
+            cursor = conn.cursor(dictionary=True)
+
+            query = "SELECT * FROM gastos"
+
+            cursor.execute(query)
+
+            gastos = cursor.fetchall()
+
+            return gastos
+
+        except Exception as e:
+            print("ERROR OBTENER GASTOS:", e)
+            return []
+
+        finally:
+            if cursor:
+                cursor.close()
+
             if conn:
                 conn.close()

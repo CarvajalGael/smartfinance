@@ -58,7 +58,11 @@ class AuthController:
         return self.model.crear_ingreso(monto, descripcion)
 
     def actualizar_ingreso(self, id_ingreso, monto, descripcion):
-        return self.model.actualizar_ingreso(id_ingreso, monto, descripcion)
+        return self.model.actualizar_ingreso(
+            id_ingreso,
+            monto,
+            descripcion
+        )
 
     def eliminar_ingreso(self, id_ingreso):
         return self.model.eliminar_ingreso(id_ingreso)
@@ -67,10 +71,25 @@ class AuthController:
         return self.model.obtener_gastos()
 
     def crear_gasto(self, monto, categoria, descripcion):
-        return self.model.crear_gasto(monto, categoria, descripcion)
+        return self.model.crear_gasto(
+            monto,
+            categoria,
+            descripcion
+        )
 
-    def actualizar_gasto(self, id_gasto, monto, categoria, descripcion):
-        return self.model.actualizar_gasto(id_gasto, monto, categoria, descripcion)
+    def actualizar_gasto(
+        self,
+        id_gasto,
+        monto,
+        categoria,
+        descripcion
+    ):
+        return self.model.actualizar_gasto(
+            id_gasto,
+            monto,
+            categoria,
+            descripcion
+        )
 
     def eliminar_gasto(self, id_gasto):
         return self.model.eliminar_gasto(id_gasto)

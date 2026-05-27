@@ -9,53 +9,62 @@ def DashboardView(page, auth_controller):
     mensaje = ft.Text(
         "Selecciona una opción",
         size=20,
-        weight="bold"
+        weight=ft.FontWeight.BOLD
     )
 
     return ft.View(
-        "/Dashboard",
-        [
+        route="/dashboard",
+        controls=[
             ft.AppBar(
                 title=ft.Text("Control Financiero"),
                 center_title=True
             ),
 
             ft.Container(
+                expand=True,
+                alignment=ft.Alignment.CENTER,
+
                 content=ft.Column(
-                    [
+                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                    spacing=30,
+
+                    controls=[
                         mensaje,
 
                         ft.Row(
-                            [
+                            alignment=ft.MainAxisAlignment.CENTER,
+                            spacing=20,
+
+                            controls=[
                                 ft.ElevatedButton(
                                     "Ingreso",
-                                    icon=ft.icons.ATTACH_MONEY,
-                                    bgcolor=ft.colors.GREEN,
-                                    color=ft.colors.WHITE,
+                                    icon=ft.Icons.ATTACH_MONEY,
+                                    bgcolor=ft.Colors.GREEN,
+                                    color=ft.Colors.WHITE,
                                     width=150,
                                     height=50,
-                                    on_click=lambda e: mostrar_mensaje("Botón INGRESO presionado")
+                                    on_click=lambda e:
+                                    mostrar_mensaje(
+                                        "Botón INGRESO presionado"
+                                    )
                                 ),
 
                                 ft.ElevatedButton(
                                     "Gastos",
-                                    icon=ft.icons.MONEY_OFF,
-                                    bgcolor=ft.colors.RED,
-                                    color=ft.colors.WHITE,
+                                    icon=ft.Icons.MONEY_OFF,
+                                    bgcolor=ft.Colors.RED,
+                                    color=ft.Colors.WHITE,
                                     width=150,
                                     height=50,
-                                    on_click=lambda e: mostrar_mensaje("Botón GASTOS presionado")
+                                    on_click=lambda e:
+                                    mostrar_mensaje(
+                                        "Botón GASTOS presionado"
+                                    )
                                 ),
-                            ],
-                            alignment=ft.MainAxisAlignment.CENTER,
-                            spacing=20
+                            ]
                         )
-                    ],
-                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                    spacing=30
-                ),
-                expand=True,
-                alignment=ft.alignment.center
+                    ]
+                )
             )
         ]
     )

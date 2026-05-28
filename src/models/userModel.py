@@ -8,7 +8,6 @@ class UsuarioModel:
         self.db = Database()
 
     def registrar(self, usuario_data):
-
         salt = bcrypt.gensalt()
 
         hashed_pw = bcrypt.hashpw(
@@ -47,7 +46,6 @@ class UsuarioModel:
         finally:
             if cursor:
                 cursor.close()
-
             if conn:
                 conn.close()
 
@@ -83,7 +81,6 @@ class UsuarioModel:
         finally:
             if cursor:
                 cursor.close()
-
             if conn:
                 conn.close()
 
@@ -94,16 +91,12 @@ class UsuarioModel:
 
         try:
             conn = self.db.get_connection()
-
             cursor = conn.cursor(dictionary=True)
 
             query = "SELECT * FROM ingresos"
-
             cursor.execute(query)
 
-            ingresos = cursor.fetchall()
-
-            return ingresos
+            return cursor.fetchall()
 
         except Exception as e:
             print("ERROR OBTENER INGRESOS:", e)
@@ -112,7 +105,6 @@ class UsuarioModel:
         finally:
             if cursor:
                 cursor.close()
-
             if conn:
                 conn.close()
 
@@ -123,16 +115,12 @@ class UsuarioModel:
 
         try:
             conn = self.db.get_connection()
-
             cursor = conn.cursor(dictionary=True)
 
             query = "SELECT * FROM gastos"
-
             cursor.execute(query)
 
-            gastos = cursor.fetchall()
-
-            return gastos
+            return cursor.fetchall()
 
         except Exception as e:
             print("ERROR OBTENER GASTOS:", e)
@@ -141,6 +129,35 @@ class UsuarioModel:
         finally:
             if cursor:
                 cursor.close()
+            if conn:
+                conn.close()
 
+    # ✅ ESTE ES EL BLOQUE CORRECTO (DENTRO DE LA CLASE)
+    def crear_ingreso(self, id_usuario, monto, descripcion):
+
+        conn = None
+        cursor = None
+
+        try:
+            conn = self.db.get_connection()
+            cursor = conn.cursor()
+
+            query = """
+                INSERT INTO ingresos (id_usuario, monto, descripcion)
+                VALUES (%s, %s, %s)
+            """
+
+            cursor.execute(query, (id_usuario, monto, descripcion))
+            conn.commit()
+
+            return True
+
+        except Exception as e:
+            print("ERROR CREAR INGRESO:", e)
+            return False
+
+        finally:
+            if cursor:
+                cursor.close()
             if conn:
                 conn.close()

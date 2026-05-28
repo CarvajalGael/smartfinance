@@ -7,6 +7,7 @@ class AuthController:
 
     def __init__(self):
         self.model = UsuarioModel()
+        self.usuario_actual = None
 
     def registrar_usuario(self, nombre, correo, password):
 
@@ -43,6 +44,7 @@ class AuthController:
             usuario = self.model.iniciar_sesion(usuario_login)
 
             if usuario:
+                self.usuario_actual = usuario  # 👈 CLAVE
                 return usuario, "Inicio de sesión exitoso"
 
             return None, "Correo o contraseña incorrectos"
@@ -54,15 +56,11 @@ class AuthController:
     def obtener_ingresos(self):
         return self.model.obtener_ingresos()
 
-    def crear_ingreso(self, monto, descripcion):
-        return self.model.crear_ingreso(monto, descripcion)
+    def crear_ingreso(self, id_usuario, monto, descripcion):
+        return self.model.crear_ingreso(id_usuario, monto, descripcion)
 
     def actualizar_ingreso(self, id_ingreso, monto, descripcion):
-        return self.model.actualizar_ingreso(
-            id_ingreso,
-            monto,
-            descripcion
-        )
+        return self.model.actualizar_ingreso(id_ingreso, monto, descripcion)
 
     def eliminar_ingreso(self, id_ingreso):
         return self.model.eliminar_ingreso(id_ingreso)
@@ -71,25 +69,10 @@ class AuthController:
         return self.model.obtener_gastos()
 
     def crear_gasto(self, monto, categoria, descripcion):
-        return self.model.crear_gasto(
-            monto,
-            categoria,
-            descripcion
-        )
+        return self.model.crear_gasto(monto, categoria, descripcion)
 
-    def actualizar_gasto(
-        self,
-        id_gasto,
-        monto,
-        categoria,
-        descripcion
-    ):
-        return self.model.actualizar_gasto(
-            id_gasto,
-            monto,
-            categoria,
-            descripcion
-        )
+    def actualizar_gasto(self, id_gasto, monto, categoria, descripcion):
+        return self.model.actualizar_gasto(id_gasto, monto, categoria, descripcion)
 
     def eliminar_gasto(self, id_gasto):
         return self.model.eliminar_gasto(id_gasto)

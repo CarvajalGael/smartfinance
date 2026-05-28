@@ -25,6 +25,7 @@ def IngresosView(page, auth_controller):
     )
 
     tabla_ingresos = ft.Column()
+    usuario = auth_controller.usuario_actual 
 
     def validar_campos():
         return bool(
@@ -33,11 +34,8 @@ def IngresosView(page, auth_controller):
         )
 
     def cargar_ingresos():
-
         tabla_ingresos.controls.clear()
-
         ingresos = auth_controller.obtener_ingresos()
-
         for ingreso in ingresos:
 
             tarjeta = ft.Container(
@@ -87,15 +85,12 @@ def IngresosView(page, auth_controller):
         page.update()
 
     def limpiar_campos():
-
         ingreso_input.value = ""
         descripcion_input.value = ""
         ingreso_editando["id"] = None
 
     def guardar_ingreso(e):
-
         if not validar_campos():
-
             page.snack_bar = ft.SnackBar(
                 content=ft.Text("Completa todos los campos")
             )
@@ -107,22 +102,18 @@ def IngresosView(page, auth_controller):
         descripcion = descripcion_input.value
 
         if ingreso_editando["id"] is None:
-
             auth_controller.crear_ingreso(
+                usuario["id_usuario"], 
                 monto,
                 descripcion
             )
-
             mensaje = "Ingreso guardado correctamente"
-
         else:
-
             auth_controller.actualizar_ingreso(
                 ingreso_editando["id"],
                 monto,
                 descripcion
             )
-
             mensaje = "Ingreso actualizado correctamente"
 
         page.snack_bar = ft.SnackBar(
@@ -134,23 +125,17 @@ def IngresosView(page, auth_controller):
         cargar_ingresos()
 
     def editar_ingreso(ingreso):
-
         ingreso_editando["id"] = ingreso["id_ingreso"]
-
         ingreso_input.value = str(ingreso["monto"])
         descripcion_input.value = ingreso["descripcion"]
-
         page.update()
         
     def eliminar_ingreso(id_ingreso):
-
         auth_controller.eliminar_ingreso(id_ingreso)
-
         page.snack_bar = ft.SnackBar(
             content=ft.Text("Ingreso eliminado correctamente")
         )
         page.snack_bar.open = True
-
         cargar_ingresos()
 
     boton_guardar = ft.ElevatedButton(
@@ -191,7 +176,7 @@ def IngresosView(page, auth_controller):
                     tabla_ingresos,
 
                     ft.TextButton(
-                        content=ft.Text("Volver al dashboard"),
+                        content=ft.Text("Volver al inicio"),
                         on_click=lambda e: page.go("/dashboard")
                     ),
                 ],

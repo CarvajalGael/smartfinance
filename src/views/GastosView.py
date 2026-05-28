@@ -97,7 +97,7 @@ def GastosView(page, auth_controller):
                     boton_guardar,
 
                     ft.TextButton(
-                        content=ft.Text("Volver al dashboard"),
+                        content=ft.Text("Volver al inicio"),
                         on_click=lambda e: page.go("/dashboard")
                     ),
 

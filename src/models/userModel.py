@@ -132,7 +132,7 @@ class UsuarioModel:
             if conn:
                 conn.close()
 
-    # ✅ ESTE ES EL BLOQUE CORRECTO (DENTRO DE LA CLASE)
+
     def crear_ingreso(self, id_usuario, monto, descripcion):
 
         conn = None

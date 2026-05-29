@@ -1,6 +1,8 @@
 from models.userModel import UsuarioModel
 from models.schemasModel import UsuarioLogin, UsuarioNuevo
 from pydantic import ValidationError
+import random
+import string
 
 
 class AuthController:
@@ -33,6 +35,36 @@ class AuthController:
             print("ERROR:", ex)
             return False, "Error interno"
 
+    def enviar_correo_olvido_contrasena(self, correo):
+
+        usuario = self.model.buscar_usuario_por_correo(
+            correo
+        )
+
+        if not usuario:
+            return False, "El correo no existe"
+
+        nueva_password = ''.join(
+            random.choices(
+                string.ascii_letters + string.digits,
+                k=8
+            )
+        )
+
+        actualizado = self.model.actualizar_password(
+            correo,
+            nueva_password
+        )
+
+        if actualizado:
+
+            return (
+                True,
+                f"Tu nueva contraseña es: {nueva_password}"
+            )
+
+        return False, "No fue posible restablecer la contraseña"
+
     def login(self, correo, password):
 
         try:
@@ -44,7 +76,7 @@ class AuthController:
             usuario = self.model.iniciar_sesion(usuario_login)
 
             if usuario:
-                self.usuario_actual = usuario  # 👈 CLAVE
+                self.usuario_actual = usuario
                 return usuario, "Inicio de sesión exitoso"
 
             return None, "Correo o contraseña incorrectos"
@@ -76,3 +108,6 @@ class AuthController:
 
     def eliminar_gasto(self, id_gasto):
         return self.model.eliminar_gasto(id_gasto)
+
+    
+    

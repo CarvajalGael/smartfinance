@@ -37,9 +37,7 @@ class AuthController:
 
     def enviar_correo_olvido_contrasena(self, correo):
 
-        usuario = self.model.buscar_usuario_por_correo(
-            correo
-        )
+        usuario = self.model.buscar_usuario_por_correo(correo)
 
         if not usuario:
             return False, "El correo no existe"
@@ -57,7 +55,6 @@ class AuthController:
         )
 
         if actualizado:
-
             return (
                 True,
                 f"Tu nueva contraseña es: {nueva_password}"
@@ -89,10 +86,18 @@ class AuthController:
         return self.model.obtener_ingresos()
 
     def crear_ingreso(self, id_usuario, monto, descripcion):
-        return self.model.crear_ingreso(id_usuario, monto, descripcion)
+        return self.model.crear_ingreso(
+            id_usuario,
+            monto,
+            descripcion
+        )
 
     def actualizar_ingreso(self, id_ingreso, monto, descripcion):
-        return self.model.actualizar_ingreso(id_ingreso, monto, descripcion)
+        return self.model.actualizar_ingreso(
+            id_ingreso,
+            monto,
+            descripcion
+        )
 
     def eliminar_ingreso(self, id_ingreso):
         return self.model.eliminar_ingreso(id_ingreso)
@@ -100,14 +105,33 @@ class AuthController:
     def obtener_gastos(self):
         return self.model.obtener_gastos()
 
-    def crear_gasto(self, monto, categoria, descripcion):
-        return self.model.crear_gasto(monto, categoria, descripcion)
+    def crear_gasto(
+        self,
+        id_usuario,
+        monto,
+        categoria,
+        descripcion
+    ):
+        return self.model.crear_gasto(
+        id_usuario,
+        monto,
+        categoria,
+        descripcion
+    )
 
-    def actualizar_gasto(self, id_gasto, monto, categoria, descripcion):
-        return self.model.actualizar_gasto(id_gasto, monto, categoria, descripcion)
+    def actualizar_gasto(
+        self,
+        id_gasto,
+        monto,
+        categoria,
+        descripcion
+    ):
+        return self.model.actualizar_gasto(
+            id_gasto,
+            monto,
+            categoria,
+            descripcion
+        )
 
     def eliminar_gasto(self, id_gasto):
         return self.model.eliminar_gasto(id_gasto)
-
-    
-    

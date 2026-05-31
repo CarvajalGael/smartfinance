@@ -7,11 +7,15 @@ class UsuarioModel:
     def __init__(self):
         self.db = Database()
 
+    # -------------------------
+    # REGISTRO DE USUARIO
+    # -------------------------
     def registrar(self, usuario_data):
+
         salt = bcrypt.gensalt()
 
         hashed_pw = bcrypt.hashpw(
-            usuario_data.password.encode('utf-8'),
+            usuario_data.password.encode("utf-8"),
             salt
         )
 
@@ -31,7 +35,7 @@ class UsuarioModel:
             values = (
                 usuario_data.nombre,
                 usuario_data.correo,
-                hashed_pw.decode('utf-8')
+                hashed_pw.decode("utf-8")
             )
 
             cursor.execute(query, values)
@@ -49,6 +53,9 @@ class UsuarioModel:
             if conn:
                 conn.close()
 
+    # -------------------------
+    # LOGIN
+    # -------------------------
     def iniciar_sesion(self, usuario_data):
 
         conn = None
@@ -61,13 +68,12 @@ class UsuarioModel:
             query = "SELECT * FROM usuarios WHERE correo=%s"
 
             cursor.execute(query, (usuario_data.email,))
-
             usuario = cursor.fetchone()
 
             if usuario:
 
-                pw_input = usuario_data.password.encode('utf-8')
-                pw_db = usuario['password'].encode('utf-8')
+                pw_input = usuario_data.password.encode("utf-8")
+                pw_db = usuario["password"].encode("utf-8")
 
                 if bcrypt.checkpw(pw_input, pw_db):
                     return usuario
@@ -84,6 +90,9 @@ class UsuarioModel:
             if conn:
                 conn.close()
 
+    # -------------------------
+    # INGRESOS
+    # -------------------------
     def obtener_ingresos(self):
 
         conn = None
@@ -93,37 +102,11 @@ class UsuarioModel:
             conn = self.db.get_connection()
             cursor = conn.cursor(dictionary=True)
 
-            query = "SELECT * FROM ingresos"
-            cursor.execute(query)
-
+            cursor.execute("SELECT * FROM ingresos")
             return cursor.fetchall()
 
         except Exception as e:
             print("ERROR OBTENER INGRESOS:", e)
-            return []
-
-        finally:
-            if cursor:
-                cursor.close()
-            if conn:
-                conn.close()
-
-    def obtener_gastos(self):
-
-        conn = None
-        cursor = None
-
-        try:
-            conn = self.db.get_connection()
-            cursor = conn.cursor(dictionary=True)
-
-            query = "SELECT * FROM gastos"
-            cursor.execute(query)
-
-            return cursor.fetchall()
-
-        except Exception as e:
-            print("ERROR OBTENER GASTOS:", e)
             return []
 
         finally:
@@ -142,7 +125,8 @@ class UsuarioModel:
             cursor = conn.cursor()
 
             query = """
-                INSERT INTO ingresos (id_usuario, monto, descripcion)
+                INSERT INTO ingresos
+                (id_usuario, monto, descripcion)
                 VALUES (%s, %s, %s)
             """
 
@@ -158,33 +142,6 @@ class UsuarioModel:
         finally:
             if cursor:
                 cursor.close()
-            if conn:
-                conn.close()
-
-    def eliminar_ingreso(self, id_ingreso):
-
-        conn = None
-        cursor = None
-
-        try:
-            conn = self.db.get_connection()
-            cursor = conn.cursor()
-
-            query = "DELETE FROM ingresos WHERE id_ingreso = %s"
-
-            cursor.execute(query, (id_ingreso,))
-            conn.commit()
-
-            return True
-
-        except Exception as e:
-            print("ERROR ELIMINAR INGRESO:", e)
-            return False
-
-        finally:
-            if cursor:
-                cursor.close()
-
             if conn:
                 conn.close()
 
@@ -204,16 +161,9 @@ class UsuarioModel:
                 WHERE id_ingreso = %s
             """
 
-            cursor.execute(
-                query,
-                (
-                    monto,
-                    descripcion,
-                    id_ingreso
-                )
-            )
-
+            cursor.execute(query, (monto, descripcion, id_ingreso))
             conn.commit()
+
             return True
 
         except Exception as e:
@@ -223,10 +173,153 @@ class UsuarioModel:
         finally:
             if cursor:
                 cursor.close()
-
             if conn:
                 conn.close()
 
+    def eliminar_ingreso(self, id_ingreso):
+
+        conn = None
+        cursor = None
+
+        try:
+            conn = self.db.get_connection()
+            cursor = conn.cursor()
+
+            cursor.execute(
+                "DELETE FROM ingresos WHERE id_ingreso = %s",
+                (id_ingreso,)
+            )
+
+            conn.commit()
+            return True
+
+        except Exception as e:
+            print("ERROR ELIMINAR INGRESO:", e)
+            return False
+
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+
+    # -------------------------
+    # GASTOS
+    # -------------------------
+    def obtener_gastos(self):
+
+        conn = None
+        cursor = None
+
+        try:
+            conn = self.db.get_connection()
+            cursor = conn.cursor(dictionary=True)
+
+            cursor.execute("SELECT * FROM gastos")
+            return cursor.fetchall()
+
+        except Exception as e:
+            print("ERROR OBTENER GASTOS:", e)
+            return []
+
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+
+    def crear_gasto(self, id_usuario, monto, categoria, descripcion):
+
+        conn = None
+        cursor = None
+
+        try:
+            conn = self.db.get_connection()
+            cursor = conn.cursor()
+
+            query = """
+                INSERT INTO gastos
+                (id_usuario, monto, categoria, descripcion)
+                VALUES (%s, %s, %s, %s)
+            """
+
+            cursor.execute(query, (id_usuario, monto, categoria, descripcion))
+            conn.commit()
+
+            return True
+
+        except Exception as e:
+            print("ERROR CREAR GASTO:", e)
+            return False
+
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+
+    def actualizar_gasto(self, id_gasto, monto, categoria, descripcion):
+
+        conn = None
+        cursor = None
+
+        try:
+            conn = self.db.get_connection()
+            cursor = conn.cursor()
+
+            query = """
+                UPDATE gastos
+                SET monto = %s,
+                    categoria = %s,
+                    descripcion = %s
+                WHERE id_gasto = %s
+            """
+
+            cursor.execute(query, (monto, categoria, descripcion, id_gasto))
+            conn.commit()
+
+            return True
+
+        except Exception as e:
+            print("ERROR ACTUALIZAR GASTO:", e)
+            return False
+
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+
+    def eliminar_gasto(self, id_gasto):
+
+        conn = None
+        cursor = None
+
+        try:
+            conn = self.db.get_connection()
+            cursor = conn.cursor()
+
+            cursor.execute(
+                "DELETE FROM gastos WHERE id_gasto = %s",
+                (id_gasto,)
+            )
+
+            conn.commit()
+            return True
+
+        except Exception as e:
+            print("ERROR ELIMINAR GASTO:", e)
+            return False
+
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+
+    # -------------------------
+    # USUARIO
+    # -------------------------
     def buscar_usuario_por_correo(self, correo):
 
         conn = None
@@ -236,13 +329,11 @@ class UsuarioModel:
             conn = self.db.get_connection()
             cursor = conn.cursor(dictionary=True)
 
-            query = """
-                SELECT *
-                FROM usuarios
-                WHERE correo = %s
-            """
+            cursor.execute(
+                "SELECT * FROM usuarios WHERE correo = %s",
+                (correo,)
+            )
 
-            cursor.execute(query, (correo,))
             return cursor.fetchone()
 
         except Exception as e:
@@ -252,7 +343,6 @@ class UsuarioModel:
         finally:
             if cursor:
                 cursor.close()
-
             if conn:
                 conn.close()
 
@@ -270,18 +360,13 @@ class UsuarioModel:
             conn = self.db.get_connection()
             cursor = conn.cursor()
 
-            query = """
+            cursor.execute(
+                """
                 UPDATE usuarios
                 SET password = %s
                 WHERE correo = %s
-            """
-
-            cursor.execute(
-                query,
-                (
-                    hashed_pw.decode("utf-8"),
-                    correo
-                )
+                """,
+                (hashed_pw.decode("utf-8"), correo)
             )
 
             conn.commit()
@@ -294,6 +379,5 @@ class UsuarioModel:
         finally:
             if cursor:
                 cursor.close()
-
             if conn:
                 conn.close()

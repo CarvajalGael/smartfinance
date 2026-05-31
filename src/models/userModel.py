@@ -187,45 +187,45 @@ class UsuarioModel:
 
             if conn:
                 conn.close()
-                
-def actualizar_ingreso(self, id_ingreso, monto, descripcion):
 
-    conn = None
-    cursor = None
+    def actualizar_ingreso(self, id_ingreso, monto, descripcion):
 
-    try:
-        conn = self.db.get_connection()
-        cursor = conn.cursor()
+        conn = None
+        cursor = None
 
-        query = """
-            UPDATE ingresos
-            SET monto = %s,
-                descripcion = %s
-            WHERE id_ingreso = %s
-        """
+        try:
+            conn = self.db.get_connection()
+            cursor = conn.cursor()
 
-        cursor.execute(
-            query,
-            (
-                monto,
-                descripcion,
-                id_ingreso
+            query = """
+                UPDATE ingresos
+                SET monto = %s,
+                    descripcion = %s
+                WHERE id_ingreso = %s
+            """
+
+            cursor.execute(
+                query,
+                (
+                    monto,
+                    descripcion,
+                    id_ingreso
+                )
             )
-        )
 
-        conn.commit()
-        return True
+            conn.commit()
+            return True
 
-    except Exception as e:
-        print("ERROR ACTUALIZAR INGRESO:", e)
-        return False
+        except Exception as e:
+            print("ERROR ACTUALIZAR INGRESO:", e)
+            return False
 
-    finally:
-        if cursor:
-            cursor.close()
+        finally:
+            if cursor:
+                cursor.close()
 
-        if conn:
-            conn.close()
+            if conn:
+                conn.close()
 
     def buscar_usuario_por_correo(self, correo):
 

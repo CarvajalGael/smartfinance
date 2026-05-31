@@ -132,7 +132,6 @@ class UsuarioModel:
             if conn:
                 conn.close()
 
-
     def crear_ingreso(self, id_usuario, monto, descripcion):
 
         conn = None
@@ -162,13 +161,78 @@ class UsuarioModel:
             if conn:
                 conn.close()
 
-    def buscar_usuario_por_correo(self, correo):
+    def eliminar_ingreso(self, id_ingreso):
 
-            conn = None
-            cursor = None
+        conn = None
+        cursor = None
+
+        try:
+            conn = self.db.get_connection()
+            cursor = conn.cursor()
+
+            query = "DELETE FROM ingresos WHERE id_ingreso = %s"
+
+            cursor.execute(query, (id_ingreso,))
+            conn.commit()
+
+            return True
+
+        except Exception as e:
+            print("ERROR ELIMINAR INGRESO:", e)
+            return False
+
+        finally:
+            if cursor:
+                cursor.close()
+
+            if conn:
+                conn.close()
+                
+def actualizar_ingreso(self, id_ingreso, monto, descripcion):
+
+    conn = None
+    cursor = None
 
     try:
+        conn = self.db.get_connection()
+        cursor = conn.cursor()
 
+        query = """
+            UPDATE ingresos
+            SET monto = %s,
+                descripcion = %s
+            WHERE id_ingreso = %s
+        """
+
+        cursor.execute(
+            query,
+            (
+                monto,
+                descripcion,
+                id_ingreso
+            )
+        )
+
+        conn.commit()
+        return True
+
+    except Exception as e:
+        print("ERROR ACTUALIZAR INGRESO:", e)
+        return False
+
+    finally:
+        if cursor:
+            cursor.close()
+
+        if conn:
+            conn.close()
+
+    def buscar_usuario_por_correo(self, correo):
+
+        conn = None
+        cursor = None
+
+        try:
             conn = self.db.get_connection()
             cursor = conn.cursor(dictionary=True)
 
@@ -177,35 +241,31 @@ class UsuarioModel:
                 FROM usuarios
                 WHERE correo = %s
             """
-    
-            cursor.execute(query, (correo,))
 
+            cursor.execute(query, (correo,))
             return cursor.fetchone()
 
-    except  Exception as e:
-                print("ERROR BUSCAR CORREO:", e)
-                return None
+        except Exception as e:
+            print("ERROR BUSCAR CORREO:", e)
+            return None
 
-    finally:
-
-                if cursor:
+        finally:
+            if cursor:
                 cursor.close()
 
             if conn:
-            conn.close()
+                conn.close()
 
+    def actualizar_password(self, correo, nueva_password):
 
-def actualizar_password(self, correo, nueva_password):
+        conn = None
+        cursor = None
 
-            conn = None
-            cursor = None
-
-    try:
-
+        try:
             hashed_pw = bcrypt.hashpw(
                 nueva_password.encode("utf-8"),
                 bcrypt.gensalt()
-        )
+            )
 
             conn = self.db.get_connection()
             cursor = conn.cursor()
@@ -218,22 +278,20 @@ def actualizar_password(self, correo, nueva_password):
 
             cursor.execute(
                 query,
-            (
+                (
                     hashed_pw.decode("utf-8"),
                     correo
+                )
             )
-        )
 
             conn.commit()
+            return True
 
-        return True
-
-    except    Exception as e:
+        except Exception as e:
             print("ERROR ACTUALIZAR PASSWORD:", e)
             return False
 
-    finally:
-
+        finally:
             if cursor:
                 cursor.close()
 

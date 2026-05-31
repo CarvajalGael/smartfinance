@@ -7,9 +7,6 @@ class UsuarioModel:
     def __init__(self):
         self.db = Database()
 
-    # -------------------------
-    # REGISTRO DE USUARIO
-    # -------------------------
     def registrar(self, usuario_data):
 
         salt = bcrypt.gensalt()
@@ -53,9 +50,6 @@ class UsuarioModel:
             if conn:
                 conn.close()
 
-    # -------------------------
-    # LOGIN
-    # -------------------------
     def iniciar_sesion(self, usuario_data):
 
         conn = None
@@ -203,9 +197,6 @@ class UsuarioModel:
             if conn:
                 conn.close()
 
-    # -------------------------
-    # GASTOS
-    # -------------------------
     def obtener_gastos(self):
 
         conn = None
@@ -317,9 +308,6 @@ class UsuarioModel:
             if conn:
                 conn.close()
 
-    # -------------------------
-    # USUARIO
-    # -------------------------
     def buscar_usuario_por_correo(self, correo):
 
         conn = None

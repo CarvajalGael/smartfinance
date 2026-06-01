@@ -5,6 +5,7 @@ from views.RegistroView import RegistroView
 from views.GastosView import GastosView
 from views.DashboardView import DashboardView
 from views.IngresoView import IngresosView
+from views.RestablecerView import RestablecerView
 
 def start(page: ft.Page):
     page.title = "Sistema de inicio de sesión"
@@ -21,16 +22,19 @@ def start(page: ft.Page):
 
         elif page.route == "/registro":
             page.views.append(RegistroView(page, auth_ctrl))
-            
+
         elif page.route == "/gastos":
             page.views.append(GastosView(page, auth_ctrl))
-            
+
         elif page.route == "/ingreso":
             page.views.append(IngresosView(page, auth_ctrl))
-        
+
         elif page.route == "/dashboard":
             page.views.append(DashboardView(page, auth_ctrl))
 
+        elif page.route == "/restablecer":
+            page.views.append(RestablecerView(page, auth_ctrl))
+            
         if not page.views:
             page.views.append(
                 ft.View("/", [ft.Text("Error: Ruta no encontrada o vista vacía")])

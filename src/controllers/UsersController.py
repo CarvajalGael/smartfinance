@@ -4,7 +4,6 @@ from pydantic import ValidationError
 import random
 import string
 
-
 class AuthController:
 
     def __init__(self):
@@ -62,6 +61,43 @@ class AuthController:
 
         return False, "No fue posible restablecer la contraseña"
 
+    def enviar_codigo_recuperacion(self, correo, codigo):
+
+        usuario = self.model.buscar_usuario_por_correo(correo)
+
+        if not usuario:
+            return False, "El correo no existe"
+
+        print(f"Código de recuperación: {codigo}")
+
+        return True, f"Código generado: {codigo}"
+
+    def restablecer_password(
+        self,
+        correo,
+        codigo_ingresado,
+        codigo_guardado,
+        nueva_password
+    ):
+
+        usuario = self.model.buscar_usuario_por_correo(correo)
+
+        if not usuario:
+            return False, "El correo no existe"
+
+        if str(codigo_ingresado) != str(codigo_guardado):
+            return False, "Código incorrecto"
+
+        actualizado = self.model.actualizar_password(
+            correo,
+            nueva_password
+        )
+
+        if actualizado:
+            return True, "Contraseña actualizada correctamente"
+
+        return False, "No fue posible actualizar la contraseña"
+
     def login(self, correo, password):
 
         try:
@@ -113,11 +149,11 @@ class AuthController:
         descripcion
     ):
         return self.model.crear_gasto(
-        id_usuario,
-        monto,
-        categoria,
-        descripcion
-    )
+            id_usuario,
+            monto,
+            categoria,
+            descripcion
+        )
 
     def actualizar_gasto(
         self,

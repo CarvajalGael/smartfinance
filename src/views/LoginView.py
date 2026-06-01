@@ -112,7 +112,7 @@ def LoginView(page, auth_controller):
 
                     ft.TextButton(
                         content=ft.Text("¿Olvidaste tu contraseña?"),
-                        on_click=mostrar_recuperacion  # Llama a AuthController
+                        on_click=lambda e: page.go("/restablecer")
                     ),
 
                     boton_login,

@@ -37,7 +37,6 @@ class AuthController:
             print("ERROR:", ex)
             return False, "Error interno"
 
-    # 🔥 ENVÍO DE CÓDIGO POR CORREO REAL
     def enviar_codigo_recuperacion(self, correo, codigo):
 
         usuario = self.model.buscar_usuario_por_correo(correo)

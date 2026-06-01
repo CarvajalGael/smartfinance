@@ -32,7 +32,7 @@ def LoginView(page, auth_controller):
             password_input.value.strip()
         )
 
-    # NUEVO: Función de recuperación de contraseña
+
     def mostrar_recuperacion(e):
         correo = email_input.value.strip()
         if not correo:

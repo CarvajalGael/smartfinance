@@ -4,6 +4,9 @@ from pydantic import ValidationError
 import random
 import string
 
+from services.email_service import enviar_codigo
+
+
 class AuthController:
 
     def __init__(self):
@@ -34,6 +37,22 @@ class AuthController:
             print("ERROR:", ex)
             return False, "Error interno"
 
+    # 🔥 ENVÍO DE CÓDIGO POR CORREO REAL
+    def enviar_codigo_recuperacion(self, correo, codigo):
+
+        usuario = self.model.buscar_usuario_por_correo(correo)
+
+        if not usuario:
+            return False, "El correo no existe"
+
+        try:
+            enviar_codigo(correo, codigo)
+            return True, "Código enviado al correo"
+
+        except Exception as e:
+            print("ERROR EMAIL:", e)
+            return False, "No se pudo enviar el correo"
+
     def enviar_correo_olvido_contrasena(self, correo):
 
         usuario = self.model.buscar_usuario_por_correo(correo)
@@ -54,23 +73,9 @@ class AuthController:
         )
 
         if actualizado:
-            return (
-                True,
-                f"Tu nueva contraseña es: {nueva_password}"
-            )
+            return True, f"Tu nueva contraseña es: {nueva_password}"
 
         return False, "No fue posible restablecer la contraseña"
-
-    def enviar_codigo_recuperacion(self, correo, codigo):
-
-        usuario = self.model.buscar_usuario_por_correo(correo)
-
-        if not usuario:
-            return False, "El correo no existe"
-
-        print(f"Código de recuperación: {codigo}")
-
-        return True, f"Código generado: {codigo}"
 
     def restablecer_password(
         self,

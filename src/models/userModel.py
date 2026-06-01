@@ -84,9 +84,6 @@ class UsuarioModel:
             if conn:
                 conn.close()
 
-    # -------------------------
-    # INGRESOS
-    # -------------------------
     def obtener_ingresos(self):
 
         conn = None
